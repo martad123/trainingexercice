@@ -14,16 +14,14 @@ public class MySecondTest extends DriverFactory {
     @Test
     public void firstTest() {
 
-        String url = "http://automationpractice.com";
+        String url = "https://www.scrum.org/andy-brandt";
         driverThread.get().goToUrl(url);
 
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
 
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h5/a[@class='product-name']")));
-        //driver.findElement(By.xpath("//div/h5/a[@class='product-name']")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h5/a[@class='product-name']")));
-        WebElement container = getDriver().findElement(By.className("ajax_block_product"));
-        container.findElement(By.className("product-name")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("Scrum.org_Logos")));
+        //WebElement container = getDriver().findElement(By.className("ajax_block_product"));
+        //container.findElement(By.className("product-name")).click();
 
         // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/div/p/button[@class='exclusive']")));
         //driver.findElement(By.xpath("//div/div/p/button[@class='exclusive']")).click();
@@ -35,19 +33,17 @@ public class MySecondTest extends DriverFactory {
             e.printStackTrace();
         }
 
-        //getDriver().findElement(By.id("add_to_cart")).click();
-        // String title = driver.findElement(By.xpath("//div[@id='layer_cart']/div/div/h2")).getText();
 
-        try{
-            Thread.sleep(2000);
-        } catch(InterruptedException e){
-            e.printStackTrace();
-        }
 
-        //Assert.assertTrue(title.equals("Product successfully added to your shopping cart"));
-        WebElement popup = getDriver().findElement(By.xpath("//a[text()='Upcoming Courses Taught by Andy Brandt']"));
-        String title = "Courses";
-        Assert.assertEquals(title, popup.findElement(By.tagName("h2")).getText());
+        WebElement trainings = getDriver().findElement(By.xpath("//h2[text()='Upcoming Courses Taught by Andy Brandt']"));
+        String title = "Upcoming Courses Taught by Andy Brandt";
+        Assert.assertEquals(title, trainings.getText());
+        WebElement training = getDriver().findElement(By.xpath("//a[contains(@href,'2019-11-14')][text()='Professional Scrum with Kanban']"));
+        String trainingTitle = "Professional Scrum with Kanban";
+        Assert.assertEquals(trainingTitle, training.getText());
+
+        training.click();
+
 
     }
 }
