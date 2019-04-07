@@ -35,7 +35,7 @@ public class MySecondTest extends DriverFactory {
             e.printStackTrace();
         }
 
-        getDriver().findElement(By.id("add_to_cart")).click();
+        //getDriver().findElement(By.id("add_to_cart")).click();
         // String title = driver.findElement(By.xpath("//div[@id='layer_cart']/div/div/h2")).getText();
 
         try{
@@ -45,8 +45,8 @@ public class MySecondTest extends DriverFactory {
         }
 
         //Assert.assertTrue(title.equals("Product successfully added to your shopping cart"));
-        WebElement popup = getDriver().findElement(By.className("layer_cart_product"));
-        String title = "Product successfully added to your shopping cart";
+        WebElement popup = getDriver().findElement(By.xpath("//a[text()='Upcoming Courses Taught by Andy Brandt']"));
+        String title = "Courses";
         Assert.assertEquals(title, popup.findElement(By.tagName("h2")).getText());
 
     }
