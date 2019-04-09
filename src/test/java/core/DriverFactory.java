@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 
 public class DriverFactory {
 
-    // ThreadLocal - nazwa klasy z wątkami (w javie); <DriverThread> - wątki do driver'ów
     public static ThreadLocal<DriverThread> driverThread;
 
 
@@ -35,6 +34,10 @@ public class DriverFactory {
 
     public static WebDriver getDriver(){
         return driverThread.get().getDriver();
+    }
+
+    public static void openPageWithUrl (String url) {
+        driverThread.get().goToUrl(url);
     }
 
 }

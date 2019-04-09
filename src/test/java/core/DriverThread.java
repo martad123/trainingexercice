@@ -1,34 +1,18 @@
 package core;
 
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-/**
- * Created by Comarch on 2017-04-24.
- */
 public class DriverThread {
 
     public WebDriver driver;
 
-    // będziemy ustawiać w POMie, czy będziemy odpalać na grid'zie, czy lokalnie
-    public boolean remote = Boolean.getBoolean("remote");
-
+    private String selectBrowser = "chrome";
 
     public void initialiseDriver() {
-
-        BrowserTypes type = determineDriverType();
-        if (!remote) {
-            startDriveLoocally(type);
-        } else {
-            startDriverRemotely(type);
-        }
-        determineDriverType();
+        startDriver(determineDriverType());
     }
 
     public WebDriver getDriver() {
@@ -39,7 +23,6 @@ public class DriverThread {
         driver.get(url);
     }
 
-
     public void clearCookies() {
         driver.manage().deleteAllCookies();
     }
@@ -49,51 +32,27 @@ public class DriverThread {
     }
 
     private BrowserTypes determineDriverType() {
-
-        BrowserTypes type = BrowserTypes.CHROME;
         try {
-            type = BrowserTypes.valueOf(System.getProperty("browser.type").toUpperCase());
+            return BrowserTypes.valueOf(selectBrowser.toUpperCase());
         } catch (Exception e) {
-            System.out.println("Not recognize browser: please use chrome or firefox");
+            Assert.fail("Not recognize browser: please use chrome or firefox");
+            return null;
         }
-        return type;
     }
 
-    private void startDriveLoocally(BrowserTypes type) {
+    private void startDriver(BrowserTypes type) {
         switch (type){
             case CHROME:
                 System.setProperty("webdriver.chrome.driver", "C:/Sources/chromedriver.exe");
                 driver = new ChromeDriver();
                 break;
             case FIREFOX:
-                System.setProperty("webdriver.gecko.driver", "C:\\Users\\Comarch\\Desktop\\IntelliJ\\geckodriver.exe");
+                System.setProperty("webdriver.gecko.driver", "C:/Sources/geckodriver.exe");
                 driver = new FirefoxDriver();
                 break;
             default:
-                System.out.print("Browser type not supported");
-                System.setProperty("webdriver.chrome.driver", "C:/Sources/chromedriver.exe");
-                //driver = new ChromeDriver();
+                Assert.fail("Browser type not supported");
         }
     }
 
-    private void startDriverRemotely(BrowserTypes type){
-        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-        switch (type){
-            case CHROME:
-                capabilities = DesiredCapabilities.chrome();
-                break;
-            case FIREFOX:
-                capabilities = DesiredCapabilities.firefox();
-                break;
-            default:
-                capabilities = DesiredCapabilities.chrome();
-        }
-
-        // do obsłużenia wyjątku, gdy nie ma podanego adresu serwera
-        try {
-            driver = new RemoteWebDriver(new URL(System.getProperty("grid.url")), capabilities);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-    }
 }

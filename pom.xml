@@ -11,11 +11,6 @@
     <properties>
         <selenium.version>3.1.0</selenium.version>
         <junit.version>4.12</junit.version>
-        <browser.type>chrome</browser.type>
-        <threads>2</threads>
-        <remote>false</remote>
-        <grid.url>http://localhost:4444/wd/hub</grid.url>
-        <cucumber-version>1.2.5</cucumber-version>
     </properties>
 
     <repositories>
@@ -62,19 +57,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.19.1</version>
-                    <configuration>
-                        <parallel>classes</parallel>
-                        <threadCount>${threads}</threadCount>
-                        <perCoreThreadCount>false</perCoreThreadCount>
-                        <systemPropertyVariables>
-                            <browser.type>${browser.type}</browser.type>
-                            <remote>${remote}</remote>
-                            <grid.url>${grid.url}</grid.url>
-                        </systemPropertyVariables>
-                        <includes>
-                            <include>**/*Runner.java</include>
-                        </includes>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
